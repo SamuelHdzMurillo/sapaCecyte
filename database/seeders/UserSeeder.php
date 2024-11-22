@@ -3,29 +3,46 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
-    public function run()
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
     {
-        User::create([
-            
-            'correo_Usuario' => 'pili@gmail.com',
-            'nombre_Usuario' => 'samuel hernandez murillo',
-            'rol_Usuario' => 'admin',
-            'area_Usuario' => 'Informatica',
-            'password' => Hash::make('password123'), // Encripta la contraseña
+        // Obtener IDs de áreas existentes
+        $areas = DB::table('areas')->pluck('id')->toArray();
+
+        if (empty($areas)) {
+            $this->command->warn('No hay áreas disponibles en la tabla "areas". Asegúrate de poblarla antes de ejecutar este seeder.');
+            return;
+        }
+
+        // Poblar la tabla 'users'
+        DB::table('users')->insert([
+            [
+                'correo_Usuario' => 'admin@example.com',
+                'nombre_Usuario' => 'Administrador',
+                'rol_Usuario' => 'admin',
+                'area_Usuario' => $areas[array_rand($areas)],
+                'password' => Hash::make('password123'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'correo_Usuario' => 'user@example.com',
+                'nombre_Usuario' => 'Usuario General',
+                'rol_Usuario' => 'user',
+                'area_Usuario' => $areas[array_rand($areas)],
+                'password' => Hash::make('password123'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
 
-        // Puedes añadir más usuarios si lo deseas
-        User::create([
-            'correo_Usuario' => 'pili2@gmail.com',
-            'nombre_Usuario' => 'daniel carillo cortes',
-            'rol_Usuario' => 'user',
-            'area_Usuario' => 'Informatica',
-            'password' => Hash::make('password456'),
-        ]);
+        $this->command->info('Se han insertado usuarios en la tabla "users".');
     }
 }

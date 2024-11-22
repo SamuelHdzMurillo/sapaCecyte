@@ -8,6 +8,7 @@ use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ProyectController;
 use App\Http\Controllers\AvanceController;
+use App\Http\Controllers\ProyectHasAreaController;
 
 
 
@@ -32,5 +33,9 @@ Route::apiResource('areas', AreaController::class);
 //RUTAS DE PROYECTOS
 Route::apiResource('proyects', ProyectController::class);
 
-//RUTAS DE PROYECTOSSSSS
+//RUTAS DE AVANCE  PROYECTOSSSSS
 Route::apiResource('avances', AvanceController::class);
+
+
+//RUTAS PIVOTE DE PROYECTO CON AREA
+Route::apiResource('proyecto-has-area', ProyectHasAreaController::class);

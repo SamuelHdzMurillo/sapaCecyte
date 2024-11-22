@@ -27,7 +27,7 @@ class AvanceSeeder extends Seeder
             'fecha_Avance' => Carbon::now()->subDays(5),
             'descripcion_Avance' => 'Primera fase completada',
             'evidencia_Avance' => 'evidencia_fase1.jpg',
-            'idProyecto' => 2,
+            'idProyecto' => 3,
             
         ]);
 
@@ -36,7 +36,7 @@ class AvanceSeeder extends Seeder
             'fecha_Avance' => Carbon::now()->subDays(2),
             'descripcion_Avance' => 'Segunda fase en progreso',
             'evidencia_Avance' => 'evidencia_fase2.jpg',
-            'idProyecto' => 1,
+            'idProyecto' => 4,
             
         ]);
     }
