@@ -22,4 +22,10 @@ class Proyect extends Model
         return $this->hasMany(Avance::class, 'idProyecto');
     }
 
+    public function areas()
+    {
+        return $this->belongsToMany(Area::class, 'proyecto_has_area', 'proyecto_id', 'area_id')
+                    ->using(ProyectHasArea::class); // Indica el modelo de la tabla pivote
+    }
+
 }
