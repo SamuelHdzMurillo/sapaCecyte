@@ -16,8 +16,6 @@ return new class extends Migration
             $table->string('nombre_Programa');
             $table->string('anio_Programa');
             $table->integer('presupuesto_Programa');
-            $table->foreignId('idProyecto')->constrained('proyects');
-
             $table->timestamps();
         });
     }

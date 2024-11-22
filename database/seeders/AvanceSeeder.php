@@ -18,7 +18,8 @@ class AvanceSeeder extends Seeder
             'fecha_Avance' => Carbon::now()->subDays(10),
             'descripcion_Avance' => 'Inicio del proyecto',
             'evidencia_Avance' => 'evidencia_inicial.jpg',
-            'idProyecto'=>1
+            'idProyecto' => 2,
+            
         ]);
 
         Avance::create([
@@ -26,7 +27,8 @@ class AvanceSeeder extends Seeder
             'fecha_Avance' => Carbon::now()->subDays(5),
             'descripcion_Avance' => 'Primera fase completada',
             'evidencia_Avance' => 'evidencia_fase1.jpg',
-            'idProyecto'=>1
+            'idProyecto' => 2,
+            
         ]);
 
         Avance::create([
@@ -34,7 +36,8 @@ class AvanceSeeder extends Seeder
             'fecha_Avance' => Carbon::now()->subDays(2),
             'descripcion_Avance' => 'Segunda fase en progreso',
             'evidencia_Avance' => 'evidencia_fase2.jpg',
-            'idProyecto'=>1
+            'idProyecto' => 1,
+            
         ]);
     }
 }

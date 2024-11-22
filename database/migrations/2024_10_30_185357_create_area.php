@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('encargado_Area');
             $table->string('nombre_Area');
-            $table->foreignId('idProyecto')->constrained('proyects');
             $table->timestamps();
         });
     }

@@ -20,7 +20,7 @@ class ProyectSeeder extends Seeder
             'fechaInicio_Proyecto' => Carbon::now()->subMonths(3),
             'fechaFin_Proyecto' => Carbon::now()->addMonths(9),
             'comentario_Proyecto' => 'Este proyecto es crucial para la mejora del aprendizaje.',
-             // Asegúrate de que el avance con ID 1 exista en la tabla 'avances'
+             'idPrograma' => 1,// Asegúrate de que el avance con ID 1 exista en la tabla 'avances'
              
         ]);
 
@@ -31,7 +31,7 @@ class ProyectSeeder extends Seeder
             'fechaInicio_Proyecto' => Carbon::now()->subMonths(2),
             'fechaFin_Proyecto' => Carbon::now()->addMonths(6),
             'comentario_Proyecto' => 'Este proyecto está alineado con la salud pública.',
-             // Asegúrate de que el avance con ID 2 exista
+            'idPrograma' => 1,// Asegúrate de que el avance con ID 2 exista
         ]);
 
         Proyect::create([
@@ -41,7 +41,7 @@ class ProyectSeeder extends Seeder
             'fechaInicio_Proyecto' => Carbon::now()->subMonths(1),
             'fechaFin_Proyecto' => Carbon::now()->addMonths(12),
             'comentario_Proyecto' => 'Un proyecto esencial para la sostenibilidad urbana.',
-             // Asegúrate de que el avance con ID 3 exista
+             'idPrograma' => 2,// Asegúrate de que el avance con ID 3 exista
         ]);
     }
 }

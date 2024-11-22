@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('fechaInicio_Proyecto');
             $table->string('fechaFin_Proyecto');
             $table->string('comentario_Proyecto');
+
+            $table->foreignId('idPrograma')->constrained('programs');
             
             $table->timestamps();
         });
@@ -28,7 +30,8 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void
-    {
-        Schema::dropIfExists('proyect');
-    }
+{
+    Schema::dropIfExists('proyects');
+}
+
 };
