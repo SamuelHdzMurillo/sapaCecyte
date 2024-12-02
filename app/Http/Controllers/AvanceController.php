@@ -33,7 +33,7 @@ class AvanceController extends Controller
      // Mostrar un avance específico
      public function show($id)
 {
-    $proyecto = Proyecto::with('avances')->find($id);
+    $proyecto = Avance::find($id);
 
     if (!$proyecto) {
         return response()->json(['message' => 'Proyecto no encontrado'], 404);
