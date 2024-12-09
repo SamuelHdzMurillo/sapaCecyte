@@ -114,8 +114,8 @@ class ProyectController extends Controller
  
     public function calcularPorcentajeAvance($proyectoId)
 {
-    // Buscar el proyecto por ID, sin cargar todos los avances
-    $proyecto = Proyect::find($proyectoId);
+    // Buscar el proyecto por ID y seleccionar campos específicos
+    $proyecto = Proyect::select('id', 'nombre_Proyecto', 'presupuesto_Proyecto')->find($proyectoId);
 
     // Validar que el proyecto exista
     if (!$proyecto) {
@@ -143,13 +143,14 @@ class ProyectController extends Controller
     $porcentajeFaltante = 100 - (($totalGastado / $presupuestoTotal) * 100);
 
     // Agregar los datos faltantes y el nombre del proyecto al resultado
-    $resultado['nombre_Proyecto'] = $proyecto->nombre; // Asegúrate de que el campo sea correcto
+    $resultado['nombre_Proyecto'] = $proyecto->nombre_Proyecto;
     $resultado['faltante'] = $faltante;
     $resultado['porcentaje_faltante'] = round($porcentajeFaltante, 2) . '%';
 
     // Devolver el resultado en formato JSON
     return response()->json($resultado);
 }
+
 
     
 }
