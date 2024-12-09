@@ -28,4 +28,40 @@ class Proyect extends Model
                     ->using(ProyectHasArea::class); // Indica el modelo de la tabla pivote
     }
 
+    public function calcularPorcentajeAvance()
+{
+    $presupuestoTotal = $this->presupuesto_Proyecto;
+
+    if ($presupuestoTotal <= 0) {
+        return ['error' => 'El presupuesto del proyecto no es válido.'];
+    }
+
+    $resultados = [];
+    $totalGastado = 0;
+
+    foreach ($this->avances as $avance) {
+        $costoAvance = $avance->costo_Avance;
+        $porcentaje = ($costoAvance / $presupuestoTotal) * 100;
+        $totalGastado += $costoAvance;
+
+        $resultados[] = [
+            'avance_id' => $avance->id,
+            'descripcion' => $avance->descripcion_Avance,
+            'costo' => $costoAvance,
+            'porcentaje' => round($porcentaje, 2) . '%'
+        ];
+    }
+
+    $porcentajeTotal = ($totalGastado / $presupuestoTotal) * 100;
+
+    return [
+        'avances' => $resultados,
+        'total_gastado' => $totalGastado,
+        'porcentaje_total' => round($porcentajeTotal, 2) . '%'
+    ];
+}
+
+
+
+
 }

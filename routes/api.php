@@ -29,6 +29,11 @@ Route::apiResource('programs', ProgramController::class);
 Route::apiResource('areas', AreaController::class);
 //RUTAS DE PROYECTOS
 Route::apiResource('proyects', ProyectController::class);
+Route::get('/proyects/{id}/presupuesto', [ProyectController::class, 'mostrarPresupuesto']);
+//muestra cuanto del presupuesto lleva consumido 
+Route::get('/proyecto/{id}/avance', [ProyectController::class, 'calcularPorcentajeAvance']);
+
+Route::get('/programs/{id}/presupuesto', [ProgramController::class, 'mostrarPresupuesto']);
 //RUTAS DE AVANCE  PROYECTOSSSSS
 Route::apiResource('avances', AvanceController::class);
 //RUTAS PIVOTE DE PROYECTO CON AREA

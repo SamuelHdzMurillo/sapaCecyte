@@ -90,4 +90,29 @@ class ProgramController extends Controller
 
         return response()->json(['message' => 'Programa eliminado con éxito']);
     }
+
+
+    public function mostrarPresupuesto($id)
+    {
+        $programa = Program::with('proyectos.avances')->find($id);
+
+        if (!$programa) {
+            return response()->json(['error' => 'Programa no encontrado'], 404);
+        }
+
+        $datosPresupuesto = $programa->calcularPorcentajeAvance();
+
+        if (isset($datosPresupuesto['error'])) {
+            return response()->json(['error' => $datosPresupuesto['error']], 400);
+        }
+
+        return response()->json([
+            'programa' => [
+                'id' => $programa->id,
+                'nombre' => $programa->nombre_Programa,
+                'presupuesto_total' => $programa->presupuesto_Programa
+            ],
+            'datos_presupuesto' => $datosPresupuesto
+        ]);
+    }
 }
