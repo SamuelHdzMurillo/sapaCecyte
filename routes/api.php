@@ -10,6 +10,7 @@ use App\Http\Controllers\ProyectController;
 use App\Http\Controllers\AvanceController;
 use App\Http\Controllers\ProyectHasAreaController;
 use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\ProveedorController;
 
 
 
@@ -43,3 +44,11 @@ Route::apiResource('proyecto-has-area', ProyectHasAreaController::class);
 Route::get('/programs-cat', [CatalogController::class, 'getPrograms']);
 Route::get('/proyects-cat', [CatalogController::class, 'getProyects']);
 Route::get('/areas-cat', [CatalogController::class, 'getAreas']);
+
+Route::prefix('proveedores')->group(function () {
+    Route::get('/', [ProveedorController::class, 'index']);
+    Route::post('/', [ProveedorController::class, 'store']);
+    Route::get('/{id}', [ProveedorController::class, 'show']);
+    Route::put('/{id}', [ProveedorController::class, 'update']);
+    Route::delete('/{id}', [ProveedorController::class, 'destroy']);
+});

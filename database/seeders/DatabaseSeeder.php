@@ -2,16 +2,10 @@
 
 namespace Database\Seeders;
 
-
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run()
     {
         // Base tables first
@@ -23,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ProyectSeeder::class);
         $this->call(ProyectHasAreaSeeder::class);
         $this->call(ProveedorSeeder::class);
+        $this->call([FacturaSeeder::class]);
         
         // Avances must be last since they depend on existing projects
         $this->call(AvanceSeeder::class);
