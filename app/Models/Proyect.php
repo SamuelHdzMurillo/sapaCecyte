@@ -24,7 +24,7 @@ class Proyect extends Model
 
     public function areas()
     {
-        return $this->belongsToMany(Area::class, 'proyecto_has_area', 'proyecto_id', 'area_id')
+        return $this->belongsToMany(Area::class, 'proyecto_has_area', 'idProyecto', 'idArea')
                     ->using(ProyectHasArea::class); // Indica el modelo de la tabla pivote
     }
 
