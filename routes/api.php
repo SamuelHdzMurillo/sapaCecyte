@@ -11,6 +11,7 @@ use App\Http\Controllers\AvanceController;
 use App\Http\Controllers\ProyectHasAreaController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\FacturaController;
 
 
 
@@ -51,4 +52,12 @@ Route::prefix('proveedores')->group(function () {
     Route::get('/{id}', [ProveedorController::class, 'show']);
     Route::put('/{id}', [ProveedorController::class, 'update']);
     Route::delete('/{id}', [ProveedorController::class, 'destroy']);
+});
+
+Route::prefix('facturas')->group(function () {
+    Route::get('/', [FacturaController::class, 'index']);
+    Route::post('/', [FacturaController::class, 'store']);
+    Route::get('/{id}', [FacturaController::class, 'show']);
+    Route::put('/{id}', [FacturaController::class, 'update']);
+    Route::delete('/{id}', [FacturaController::class, 'destroy']);
 });
