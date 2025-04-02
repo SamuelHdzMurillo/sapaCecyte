@@ -31,13 +31,6 @@ class AvanceSeeder extends Seeder
             
         ]);
 
-        Avance::create([
-            'costo_Avance' => 4500,
-            'fecha_Avance' => Carbon::now()->subDays(2),
-            'descripcion_Avance' => 'Segunda fase en progreso',
-            'evidencia_Avance' => 'evidencia_fase2.jpg',
-            'idProyecto' => 4,
-            
-        ]);
+      
     }
 }
