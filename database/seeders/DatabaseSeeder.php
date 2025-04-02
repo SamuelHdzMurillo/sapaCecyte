@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
-    public function run(): void
+    public function run()
     {
         // Base tables first
         $this->call(UserSeeder::class);
@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         // Create projects before their relationships and avances
         $this->call(ProyectSeeder::class);
         $this->call(ProyectHasAreaSeeder::class);
+        $this->call(ProveedorSeeder::class);
         
         // Avances must be last since they depend on existing projects
         $this->call(AvanceSeeder::class);
