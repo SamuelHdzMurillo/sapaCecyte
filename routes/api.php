@@ -13,39 +13,41 @@ use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\FacturaController;
 
-
-
-
+// Ruta de autenticación para obtener usuario actual
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-
-//RUTAS DE USUARIO
-Route::apiResource('users', UserController::class);
-//LOGIN DE USARIO 
+// ============= RUTAS DE AUTENTICACIÓN =============
 Route::post('/login', [AuthController::class, 'login']);
-//RUTAS DE PROGRAMAS
+
+// ============= RUTAS DE USUARIOS =============
+Route::apiResource('users', UserController::class);
+
+// ============= RUTAS DE PROGRAMAS =============
 Route::apiResource('programs', ProgramController::class);
-//RUTAS DE AREAS
+Route::get('/programs/{id}/presupuesto', [ProgramController::class, 'mostrarPresupuesto']);
+
+// ============= RUTAS DE ÁREAS =============
 Route::apiResource('areas', AreaController::class);
-//RUTAS DE PROYECTOS
+
+// ============= RUTAS DE PROYECTOS =============
 Route::apiResource('proyects', ProyectController::class);
 Route::get('/proyects/{id}/presupuesto', [ProyectController::class, 'mostrarPresupuesto']);
-//muestra cuanto del presupuesto lleva consumido 
 Route::get('/proyecto/{id}/avance', [ProyectController::class, 'calcularPorcentajeAvance']);
 
-Route::get('/programs/{id}/presupuesto', [ProgramController::class, 'mostrarPresupuesto']);
-//RUTAS DE AVANCE  PROYECTOSSSSS
+// ============= RUTAS DE AVANCES =============
 Route::apiResource('avances', AvanceController::class);
-//RUTAS PIVOTE DE PROYECTO CON AREA
+
+// ============= RUTAS DE RELACIÓN PROYECTO-ÁREA =============
 Route::apiResource('proyecto-has-area', ProyectHasAreaController::class);
 
-// Rutas API para obtener los programas, proyectos y áreas
+// ============= RUTAS DE CATÁLOGOS =============
 Route::get('/programs-cat', [CatalogController::class, 'getPrograms']);
 Route::get('/proyects-cat', [CatalogController::class, 'getProyects']);
 Route::get('/areas-cat', [CatalogController::class, 'getAreas']);
 
+// ============= RUTAS DE PROVEEDORES =============
 Route::prefix('proveedores')->group(function () {
     Route::get('/', [ProveedorController::class, 'index']);
     Route::post('/', [ProveedorController::class, 'store']);
@@ -54,6 +56,7 @@ Route::prefix('proveedores')->group(function () {
     Route::delete('/{id}', [ProveedorController::class, 'destroy']);
 });
 
+// ============= RUTAS DE FACTURAS =============
 Route::prefix('facturas')->group(function () {
     Route::get('/', [FacturaController::class, 'index']);
     Route::post('/', [FacturaController::class, 'store']);
