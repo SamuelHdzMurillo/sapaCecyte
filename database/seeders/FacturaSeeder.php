@@ -7,11 +7,14 @@ use App\Models\Proveedor;
 use App\Models\Area;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
 
 class FacturaSeeder extends Seeder
 {
     public function run()
     {
+        $faker = Faker::create('es_MX');
+
         // Check if we have the necessary related data
         $proveedorIds = Proveedor::pluck('id')->toArray();
         $areaIds = Area::pluck('id')->toArray();
@@ -19,33 +22,46 @@ class FacturaSeeder extends Seeder
 
         // Verify if we have the necessary data
         if (empty($proveedorIds) || empty($areaIds) || empty($userIds)) {
-            echo "Please ensure Proveedores, Areas, and Users tables have data before running this seeder.\n";
+            echo "Por favor asegúrate de que las tablas de Proveedores, Áreas y Usuarios tengan datos antes de ejecutar este seeder.\n";
             return;
         }
 
-        // Create 10 sample facturas
-        for ($i = 0; $i < 10; $i++) {
+        // Tipos de documentos comunes
+        $extensiones = ['pdf', 'jpg', 'png'];
+
+        // Create 20 sample facturas
+        for ($i = 0; $i < 20; $i++) {
+            // Generar fechas en orden lógico
+            $fechaCompra = $faker->dateTimeBetween('-6 months', '-2 months');
+            $fechaEntrega = $faker->dateTimeBetween($fechaCompra, '+1 month');
+            $fechaPago = $faker->dateTimeBetween($fechaEntrega, $fechaEntrega->format('Y-m-d') . ' +15 days');
+
+            $cantidadPagada = $faker->randomFloat(2, 1000, 150000);
+
             Factura::create([
-                'proveedor_id' => $proveedorIds[array_rand($proveedorIds)],
-                'area_id' => $areaIds[array_rand($areaIds)],
-                'user_id' => $userIds[array_rand($userIds)],
-                'factura_documento' => 'sample_factura_' . ($i + 1) . '.pdf',
-                'comprobante_pago' => 'sample_comprobante_' . ($i + 1) . '.pdf',
+                'proveedor_id' => $faker->randomElement($proveedorIds),
+                'area_id' => $faker->randomElement($areaIds),
+                'user_id' => $faker->randomElement($userIds),
+                'factura_documento' => $faker->uuid . '.' . $faker->randomElement($extensiones),
+                'comprobante_pago' => $faker->uuid . '.' . $faker->randomElement($extensiones),
                 'imagenes' => [
-                    'imagen1_' . ($i + 1) . '.jpg',
-                    'imagen2_' . ($i + 1) . '.jpg'
+                    $faker->uuid . '.' . $faker->randomElement($extensiones),
+                    $faker->uuid . '.' . $faker->randomElement($extensiones),
+                    $faker->uuid . '.' . $faker->randomElement($extensiones)
                 ],
-                'requisicion_compra' => 'sample_requisicion_' . ($i + 1) . '.pdf',
-                'recibi' => 'sample_recibi_' . ($i + 1) . '.pdf',
+                'requisicion_compra' => 'REQ-' . str_pad($faker->numberBetween(1000, 9999), 4, '0', STR_PAD_LEFT) . '.' . $faker->randomElement($extensiones),
+                'recibi' => 'REC-' . str_pad($faker->numberBetween(1000, 9999), 4, '0', STR_PAD_LEFT) . '.' . $faker->randomElement($extensiones),
                 'cotizaciones' => [
-                    'cotizacion1_' . ($i + 1) . '.pdf',
-                    'cotizacion2_' . ($i + 1) . '.pdf'
+                    'COT-' . str_pad($faker->numberBetween(1000, 9999), 4, '0', STR_PAD_LEFT) . '.' . $faker->randomElement($extensiones),
+                    'COT-' . str_pad($faker->numberBetween(1000, 9999), 4, '0', STR_PAD_LEFT) . '.' . $faker->randomElement($extensiones)
                 ],
-                'cantidad_pagada' => fake()->randomFloat(2, 1000, 50000),
-                'fecha_pago' => fake()->dateTimeBetween('-1 month', 'now'),
-                'fecha_compra' => fake()->dateTimeBetween('-2 months', '-1 month'),
-                'fecha_entrega' => fake()->dateTimeBetween('-1 month', '+1 month'),
+                'cantidad_pagada' => $cantidadPagada,
+                'fecha_pago' => $fechaPago,
+                'fecha_compra' => $fechaCompra,
+                'fecha_entrega' => $fechaEntrega
             ]);
         }
+
+        echo "Se han creado 20 facturas de ejemplo exitosamente.\n";
     }
 }
