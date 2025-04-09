@@ -44,4 +44,9 @@ class Factura extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function avances()
+    {
+        return $this->belongsToMany(Avance::class, 'avance_factura');
+    }
 }

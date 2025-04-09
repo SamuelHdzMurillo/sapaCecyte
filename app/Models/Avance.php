@@ -15,9 +15,13 @@ class Avance extends Model
     ];
 
     // Modelo Avance.php
-public function proyecto()
-{
-    return $this->belongsTo(Proyect::class, 'idProyecto');
-}
+    public function proyecto()
+    {
+        return $this->belongsTo(Proyect::class, 'idProyecto');
+    }
 
+    public function facturas()
+    {
+        return $this->belongsToMany(Factura::class, 'avance_factura');
+    }
 }

@@ -4,16 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Avance;
+use App\Models\Factura;
 
 class AvanceController extends Controller
 {
      // Listar todos los avances
      public function index()
-{
-    $avances = Avance::with('proyecto')->get();
-    
-    return response()->json(['data' => $avances]);
-}
+     {
+         $avances = Avance::with(['proyecto', 'facturas'])->get();
+         return response()->json(['data' => $avances]);
+     }
  
      // Crear un nuevo avance
      public function store(Request $request)
@@ -23,25 +23,31 @@ class AvanceController extends Controller
              'fecha_Avance' => 'required|date',
              'descripcion_Avance' => 'nullable|string',
              'evidencia_Avance' => 'nullable|string',
-             'proyecto_id' => 'required|exists:proyects,id'
+             'proyecto_id' => 'required|exists:proyects,id',
+             'facturas' => 'sometimes|array',
+             'facturas.*' => 'sometimes|exists:facturas,id'
          ]);
  
          $avance = Avance::create($validatedData);
-         return response()->json(['message' => 'Avance creado con éxito', 'data' => $avance], 201);
+ 
+         if (isset($validatedData['facturas']) && !empty($validatedData['facturas'])) {
+             $avance->facturas()->attach($validatedData['facturas']);
+         }
+ 
+         return response()->json(['message' => 'Avance creado con éxito', 'data' => $avance->load('facturas')], 201);
      }
  
      // Mostrar un avance específico
      public function show($id)
-{
-    $proyecto = Avance::find($id);
-
-    if (!$proyecto) {
-        return response()->json(['message' => 'Proyecto no encontrado'], 404);
-    }
-
-    return response()->json(['data' => $proyecto]);
-}
-
+     {
+         $avance = Avance::with(['proyecto', 'facturas'])->find($id);
+ 
+         if (!$avance) {
+             return response()->json(['message' => 'Avance no encontrado'], 404);
+         }
+ 
+         return response()->json(['data' => $avance]);
+     }
  
      // Actualizar un avance
      public function update(Request $request, $id)
@@ -56,11 +62,18 @@ class AvanceController extends Controller
              'fecha_Avance' => 'date',
              'descripcion_Avance' => 'nullable|string',
              'evidencia_Avance' => 'nullable|string',
-             'proyecto_id' => 'exists:proyects,id'
+             'proyecto_id' => 'exists:proyects,id',
+             'facturas' => 'sometimes|array',
+             'facturas.*' => 'sometimes|exists:facturas,id'
          ]);
  
          $avance->update($validatedData);
-         return response()->json(['message' => 'Avance actualizado con éxito', 'data' => $avance]);
+ 
+         if (isset($validatedData['facturas'])) {
+             $avance->facturas()->sync($validatedData['facturas']);
+         }
+ 
+         return response()->json(['message' => 'Avance actualizado con éxito', 'data' => $avance->load('facturas')]);
      }
  
      // Eliminar un avance
