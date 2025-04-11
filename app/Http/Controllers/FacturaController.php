@@ -74,11 +74,38 @@ class FacturaController extends Controller
     }
 
     public function show($id)
-{
-    $factura = Factura::with(['proveedor', 'area', 'user'])->findOrFail($id);
+    {
+        $factura = Factura::with(['proveedor', 'area', 'user'])->findOrFail($id);
+        
+        $baseUrl = '/storage/facturas/';  // Changed to match Laravel's storage URL pattern
+        
+        // Add URLs for stored files
+        if ($factura->factura_documento) {
+            $factura->factura_documento_url = $baseUrl . $factura->factura_documento;
+        }
+        
+        if ($factura->comprobante_pago) {
+            $factura->comprobante_pago_url = $baseUrl . $factura->comprobante_pago;
+        }
+        
+        if ($factura->requisicion_compra) {
+            $factura->requisicion_compra_url = $baseUrl . $factura->requisicion_compra;
+        }
+        
+        if ($factura->imagenes) {
+            $factura->imagenes_urls = array_map(function($imagen) use ($baseUrl) {
+                return $baseUrl . $imagen;
+            }, $factura->imagenes);
+        }
+        
+        if ($factura->cotizaciones) {
+            $factura->cotizaciones_urls = array_map(function($cotizacion) use ($baseUrl) {
+                return $baseUrl . $cotizacion;
+            }, $factura->cotizaciones);
+        }
 
-    return response()->json($factura);
-}
+        return response()->json($factura);
+    }
 
 
     public function update(Request $request, Factura $factura)
