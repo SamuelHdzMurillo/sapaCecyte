@@ -16,7 +16,7 @@ class FacturaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'proveedor_id' => 'required|exists:proveedors,id',
+            'proveedor_id' => 'required|exists:proveedores,id',
             'area_id' => 'required|exists:areas,id',
             'user_id' => 'required|exists:users,id',
             'factura_documento' => 'required|string',
@@ -43,7 +43,7 @@ class FacturaController extends Controller
     public function update(Request $request, Factura $factura)
     {
         $request->validate([
-            'proveedor_id' => 'exists:proveedors,id',
+            'proveedor_id' => 'exists:proveedores,id',
             'area_id' => 'exists:areas,id',
             'user_id' => 'exists:users,id',
             'factura_documento' => 'string',
