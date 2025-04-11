@@ -22,4 +22,9 @@ class Proveedor extends Model
         'constancia_no_sancion',
         'constancia_inhabilitacion'
     ];
+
+    public function facturas()
+    {
+        return $this->hasMany(Factura::class);
+    }
 }
