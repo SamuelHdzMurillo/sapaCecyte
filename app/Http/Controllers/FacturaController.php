@@ -73,10 +73,13 @@ class FacturaController extends Controller
         return response()->json($factura, 201);
     }
 
-    public function show(Factura $factura)
-    {
-        return response()->json($factura->load(['proveedor', 'area', 'user']));
-    }
+    public function show($id)
+{
+    $factura = Factura::with(['proveedor', 'area', 'user'])->findOrFail($id);
+
+    return response()->json($factura);
+}
+
 
     public function update(Request $request, Factura $factura)
     {
